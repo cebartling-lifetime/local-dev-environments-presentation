@@ -70,7 +70,11 @@
         <section>
             <h2>What is a local development environment?</h2>
             <ul>
-                <li></li>
+                <li>Docker Compose or Kubernetes running locally</li>
+                <li>Containers for service dependencies</li>
+                <li>Mirrors the production environment</li>
+                <li>Ephemeral</li>
+                <li>Experimentation sandbox</li>
             </ul>
             <aside class="notes">
                 A local development environment using Docker Compose or Kubernetes is a setup where developers run their
@@ -85,7 +89,8 @@
                 it provides a production-like sandbox on a laptop, enabling faster debugging, safer experimentation, and
                 smoother collaboration across a team.
 
-                Ephemerality in a local development environment means the setup can be created, destroyed, and recreated
+                The local development environment is ephemeral, meaning the setup can be created, destroyed, and
+                recreated
                 at will without manual effort or long-term dependencies. This is important because it ensures developers
                 always have a clean, consistent starting point, free from leftover configuration, corrupted data, or
                 version mismatches that can creep in over time. By treating environments as disposable, teams reduce “it
@@ -102,20 +107,70 @@
             <h2>Setting up your own environment</h2>
             <ul>
                 <li>Docker and Docker Compose</li>
-                <li>Kubernetes and Helm</li>
+                <li>Kubernetes</li>
+                <li>Helm</li>
             </ul>
             <aside class="notes">
+                Docker Compose is a tool that lets developers define and run multi-container applications using a single
+                YAML configuration file. Instead of starting each service manually, developers can describe the entire
+                stack—application, database, cache, message broker, etc.—and launch everything with a single command
+                (docker compose up).
 
+                Docker Compose is especially useful for local development because it provides a consistent, reproducible
+                environment that mirrors production while staying lightweight and easy to manage. Developers can spin up
+                or tear down complex setups quickly, test integrations across services, and avoid “works on my machine”
+                problems caused by mismatched dependencies or configurations.
+
+                Kubernetes is a container orchestration platform that automates the deployment, scaling, and management
+                of applications composed of many containers. It groups containers into logical units (pods) and provides
+                features like service discovery, load balancing, rolling updates, and resource management—capabilities
+                that are critical in production systems running at scale.
+
+                For local development, Kubernetes is useful because it allows developers to run applications in an
+                environment that closely mirrors production, complete with networking, scaling, and orchestration
+                features. Tools like Minikube, kind, or Docker Desktop make it possible to spin up a lightweight
+                Kubernetes cluster on a developer's computer. This helps developers catch integration or configuration
+                issues early, test distributed systems realistically, and build confidence that code will behave the
+                same way when deployed to production.
+
+                Helm is a package manager for Kubernetes that simplifies the deployment and management of applications
+                inside a cluster. It uses “charts” (preconfigured bundles of Kubernetes manifests) to define, install,
+                and update applications consistently.
+
+                For local development, Helm is useful because it allows developers to spin up complex applications
+                quickly and reproducibly on a local Kubernetes cluster. Instead of writing and managing many YAML files
+                by hand, developers can use Helm charts to deploy services with a single command, customize
+                configurations easily, and keep environments consistent with production. This speeds up experimentation,
+                reduces setup time, and makes managing Kubernetes applications more approachable during development.
             </aside>
         </section>
 
         <section>
             <h2>Databases</h2>
             <ul>
-                <li></li>
+                <li>Microsoft SQL Server</li>
+                <li>MongoDB</li>
+                <li>Database initialization and seeding</li>
             </ul>
             <aside class="notes">
+                With Docker Compose, you can run databases like MS SQL Server and MongoDB as services alongside your app
+                so everything starts with one command and shares a private network. Each DB gets its own container,
+                persistent volume (so data survives restarts), and environment variables for credentials. Your
+                application service just connects to the DB’s service name (e.g., sqlserver:1433 or
+                mongodb://mongo:27017) instead of localhost, giving you a reproducible, production-like stack on your
+                laptop.
 
+                Initialization and seeding are handled slightly differently per database. For MongoDB, the official
+                image automatically runs any .js or .sh files placed in /docker-entrypoint-initdb.d on the first launch
+                of a fresh data volume. You can use this to create users, databases, and seed collections (including
+                running mongorestore from a dump).
+
+                For MS SQL Server, the official image doesn’t auto-run scripts by default; common practice is to add a
+                small “init” one-shot container that waits for SQL Server to become healthy and then executes your .sql
+                files via sqlcmd (or bake that logic into a custom entrypoint). In both cases, Compose healthchecks
+                (depends_on: condition: service_healthy) ensure your app starts only after the database is ready, and
+                volumes keep data persistent while still allowing you to tear everything down and recreate a clean
+                environment when you need to reseed.
             </aside>
         </section>
 
