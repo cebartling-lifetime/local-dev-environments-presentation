@@ -1,62 +1,107 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <title>My Reveal.js Deck</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-    </head>
-    <body>
-        <!-- Reveal container -->
-        <div class="reveal">
-            <div class="slides">
-                <!-- Example horizontal slide -->
-                <section>
-                    <h1>Hello, Reveal.js 👋</h1>
-                    <p>Now powered by Vite.</p>
-                    <aside class="notes">Speaker notes show up with “S”.</aside>
-                </section>
+<head>
+    <meta charset="utf-8"/>
+    <title>Local Development Environments Presentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+</head>
+<body>
+<!-- Reveal container -->
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <h1>Local Development Environments</h1>
+            <h3>Christopher Bartling</h3>
 
-                <!-- Vertical stack -->
-                <section>
-                    <h2>Vertical Stack</h2>
-                    <section>
-                        <h3>Child slide</h3>
-                        <pre><code class="language-js" data-trim>
-console.log("Syntax highlighting via highlight.js plugin");
-            </code></pre>
-                    </section>
-                </section>
+            <aside class="notes">Speaker notes show up with “S”.</aside>
+        </section>
 
-                <!-- Markdown slide -->
-                <section
-                    data-markdown
-                    data-separator="^---$"
-                    data-separator-vertical="^--$"
-                >
-                    <textarea data-template>
-# Markdown slide
+        <section>
+            <h2>Topics</h2>
+            <ul>
+                <li>Why use a local development environment?</li>
+                <li>What is a local development environment?</li>
+                <li>Setting up your own environment</li>
+                <li>Best practices and tips</li>
+            </ul>
+            <aside class="notes">Speaker notes show up with “S”.</aside>
+        </section>
 
-Write slides in **Markdown**.
+        <section>
+            <h2>Why use a local development environment?</h2>
+            <ul>
+                <li>Consistency</li>
+                <li>Reproducibility</li>
+                <li>Isolation</li>
+                <li>Efficiency</li>
+                <li>Safe experimentation</li>
+                <li>Parity with QA and production</li>
+                <li>Quick feedback</li>
+                <li>Improved productivity</li>
+            </ul>
+            <aside class="notes">
+                Local development environments powered by Docker Compose or Kubernetes are valuable because they provide
+                consistency, reproducibility, and isolation across machines and stages of development. By containerizing
+                applications and their dependencies, developers avoid the “works on my machine” problem and can quickly
+                spin up complex, multi-service stacks that closely mirror QA and production. This makes onboarding new
+                developers faster, enables safe experimentation, and reduces the risk of environment-related bugs.
 
---
+                They also help teams maintain parity with production systems, which are often container-orchestrated in
+                Kubernetes or similar platforms. This alignment means issues are caught earlier in development, CI/CD
+                pipelines run more reliably, and scaling or networking scenarios can be tested locally. In short,
+                Docker Compose and Kubernetes create efficient, production-like environments that improve collaboration,
+                debugging, and software quality.
 
-### Vertical markdown slide
+                Local development environments with Docker Compose or Kubernetes shorten feedback loops because they let
+                developers test code changes against a realistic, production-like setup immediately on their machine.
+                Instead of waiting for builds to deploy to a shared integration environment, developers can run the full
+                stack—including databases, message brokers, and supporting services—locally with a single command. This
+                means issues like misconfigurations, dependency mismatches, or integration bugs are caught early, often
+                within minutes of writing code.
 
-- Point A
-- Point B
+                By reducing reliance on remote environments, these setups also cut down on delays caused by resource
+                contention or slow deployment pipelines. The result is faster iteration, quicker validation of changes,
+                and a smoother path from development to production. In essence, local Docker Compose or Kubernetes
+                environments give developers instant, reliable feedback, which drives productivity and improves software
+                quality.
+            </aside>
+        </section>
 
----
 
-## Another horizontal slide
+        <section>
+            <h2>What is a local development environment?</h2>
+            <ul>
+                <li></li>
+            </ul>
+            <aside class="notes">
+                A local development environment using Docker Compose or Kubernetes is a setup where developers run their
+                application and all its required services (like databases, caches, message brokers, or APIs) inside
+                containers on their own machine. Instead of manually installing and configuring these dependencies,
+                developers define them in configuration files (docker-compose.yml or Kubernetes manifests) and start the
+                entire stack with a single command. This creates a consistent, reproducible environment that mirrors how
+                the application will run in production.
 
-Press `F` fullscreen, `Esc` overview.
-          </textarea
-                    >
-                </section>
-            </div>
-        </div>
+                With this approach, developers can work in isolation without interfering with each other, quickly spin
+                up or tear down complete environments, and test changes against realistic infrastructure. Essentially,
+                it provides a production-like sandbox on a laptop, enabling faster debugging, safer experimentation, and
+                smoother collaboration across a team.
 
-        <!-- App entry -->
-        <script type="module" src="/src/main.js"></script>
-    </body>
+                Ephemerality in a local development environment means the setup can be created, destroyed, and recreated
+                at will without manual effort or long-term dependencies. This is important because it ensures developers
+                always have a clean, consistent starting point, free from leftover configuration, corrupted data, or
+                version mismatches that can creep in over time. By treating environments as disposable, teams reduce “it
+                works on my machine” issues and avoid wasting time debugging environment drift.
+
+                It also encourages safe experimentation—developers can try risky changes, test migrations, or simulate
+                failures knowing they can reset everything back to a known good state instantly. This disposability
+                aligns local development with modern DevOps practices, making environments reliable, reproducible, and
+                easy to share across the team.
+            </aside>
+        </section>
+    </div>
+</div>
+
+<!-- App entry -->
+<script type="module" src="/src/main.js"></script>
+</body>
 </html>
