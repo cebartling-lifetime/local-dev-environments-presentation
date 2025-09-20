@@ -1,6 +1,6 @@
 // Core & theme CSS
 import "reveal.js/dist/reveal.css";
-import "reveal.js/dist/theme/black.css"; // swap theme: league.css, moon.css, etc.
+import "reveal.js/dist/theme/league.css"; // swap theme: league.css, moon.css, etc.
 // (optional) code highlight theme
 import "reveal.js/plugin/highlight/monokai.css";
 
@@ -24,5 +24,5 @@ deck.initialize({
   controls: true,
   progress: true,
   center: true,
-  transition: "slide", // none/fade/slide/convex/concave/zoom
+  transition: "convex", // none/fade/slide/convex/concave/zoom
 });
