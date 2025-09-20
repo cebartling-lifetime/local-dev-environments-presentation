@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>My Reveal.js Deck</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    </head>
+    <body>
+        <!-- Reveal container -->
+        <div class="reveal">
+            <div class="slides">
+                <!-- Example horizontal slide -->
+                <section>
+                    <h1>Hello, Reveal.js 👋</h1>
+                    <p>Now powered by Vite.</p>
+                    <aside class="notes">Speaker notes show up with “S”.</aside>
+                </section>
+
+                <!-- Vertical stack -->
+                <section>
+                    <h2>Vertical Stack</h2>
+                    <section>
+                        <h3>Child slide</h3>
+                        <pre><code class="language-js" data-trim>
+console.log("Syntax highlighting via highlight.js plugin");
+            </code></pre>
+                    </section>
+                </section>
+
+                <!-- Markdown slide -->
+                <section
+                    data-markdown
+                    data-separator="^---$"
+                    data-separator-vertical="^--$"
+                >
+                    <textarea data-template>
+# Markdown slide
+
+Write slides in **Markdown**.
+
+--
+
+### Vertical markdown slide
+
+- Point A
+- Point B
+
+---
+
+## Another horizontal slide
+
+Press `F` fullscreen, `Esc` overview.
+          </textarea
+                    >
+                </section>
+            </div>
+        </div>
+
+        <!-- App entry -->
+        <script type="module" src="/src/main.js"></script>
+    </body>
+</html>

@@ -1,0 +1,4 @@
+/* tiny example override */
+.reveal h1 {
+    letter-spacing: 0.5px;
+}
