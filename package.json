@@ -1,0 +1,23 @@
+{
+  "name": "local-dev-environments-presentation",
+  "version": "1.0.0",
+  "description": "Presentation on local development environments",
+  "homepage": "https://github.com/cebartling-lifetime/local-dev-environments-presentation#readme",
+  "bugs": {
+    "url": "https://github.com/cebartling-lifetime/local-dev-environments-presentation/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cebartling-lifetime/local-dev-environments-presentation.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "reveal.js": "^5.2.1"
+  }
+}
