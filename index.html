@@ -10,8 +10,8 @@
 <div class="reveal">
     <div class="slides">
         <section>
-            <h1>Local Development Environments</h1>
-            <h3>Christopher Bartling</h3>
+            <h2>Local Development Environments</h2>
+            <h4>Christopher Bartling</h4>
 
             <aside class="notes">Speaker notes show up with “S”.</aside>
         </section>
@@ -40,7 +40,7 @@
                 <li>Improved productivity</li>
             </ul>
             <aside class="notes">
-                Local development environments powered by Docker Compose or Kubernetes are valuable because they provide
+                Local development environments powered by Docker Compose are valuable because they provide
                 consistency, reproducibility, and isolation across machines and stages of development. By containerizing
                 applications and their dependencies, developers avoid the “works on my machine” problem and can quickly
                 spin up complex, multi-service stacks that closely mirror QA and production. This makes onboarding new
@@ -49,10 +49,10 @@
                 They also help teams maintain parity with production systems, which are often container-orchestrated in
                 Kubernetes or similar platforms. This alignment means issues are caught earlier in development, CI/CD
                 pipelines run more reliably, and scaling or networking scenarios can be tested locally. In short,
-                Docker Compose and Kubernetes create efficient, production-like environments that improve collaboration,
+                Docker Compose creates efficient, production-like environments that improve collaboration,
                 debugging, and software quality.
 
-                Local development environments with Docker Compose or Kubernetes shorten feedback loops because they let
+                Local development environments with Docker Compose shorten feedback loops because they let
                 developers test code changes against a realistic, production-like setup immediately on their machine.
                 Instead of waiting for builds to deploy to a shared integration environment, developers can run the full
                 stack—including databases, message brokers, and supporting services—locally with a single command. This
@@ -61,7 +61,7 @@
 
                 By reducing reliance on remote environments, these setups also cut down on delays caused by resource
                 contention or slow deployment pipelines. The result is faster iteration, quicker validation of changes,
-                and a smoother path from development to production. In essence, local Docker Compose or Kubernetes
+                and a smoother path from development to production. In essence, local Docker Compose
                 environments give developers instant, reliable feedback, which drives productivity and improves software
                 quality.
             </aside>
@@ -70,14 +70,14 @@
         <section>
             <h2>What is a local development environment?</h2>
             <ul>
-                <li>Docker Compose or Kubernetes running locally</li>
+                <li>Docker Compose running locally</li>
                 <li>Containers for service dependencies</li>
                 <li>Mirrors the production environment</li>
                 <li>Ephemeral</li>
                 <li>Experimentation sandbox</li>
             </ul>
             <aside class="notes">
-                A local development environment using Docker Compose or Kubernetes is a setup where developers run their
+                A local development environment using Docker Compose is a setup where developers run their
                 application and all its required services (like databases, caches, message brokers, or APIs) inside
                 containers on their own machine. Instead of manually installing and configuring these dependencies,
                 developers define them in configuration files (docker-compose.yml or Kubernetes manifests) and start the
@@ -90,11 +90,10 @@
                 smoother collaboration across a team.
 
                 The local development environment is ephemeral, meaning the setup can be created, destroyed, and
-                recreated
-                at will without manual effort or long-term dependencies. This is important because it ensures developers
-                always have a clean, consistent starting point, free from leftover configuration, corrupted data, or
-                version mismatches that can creep in over time. By treating environments as disposable, teams reduce “it
-                works on my machine” issues and avoid wasting time debugging environment drift.
+                recreated at will without manual effort or long-term dependencies. This is important because it ensures
+                developers always have a clean, consistent starting point, free from leftover configuration, corrupted
+                data, or version mismatches that can creep in over time. By treating environments as disposable, teams
+                reduce “it works on my machine” issues and avoid wasting time debugging environment drift.
 
                 It also encourages safe experimentation—developers can try risky changes, test migrations, or simulate
                 failures knowing they can reset everything back to a known good state instantly. This disposability
@@ -107,8 +106,7 @@
             <h2>Setting up your own environment</h2>
             <ul>
                 <li>Docker and Docker Compose</li>
-                <li>Kubernetes</li>
-                <li>Helm</li>
+                <li>Service images</li>
             </ul>
             <aside class="notes">
                 Docker Compose is a tool that lets developers define and run multi-container applications using a single
@@ -120,28 +118,6 @@
                 environment that mirrors production while staying lightweight and easy to manage. Developers can spin up
                 or tear down complex setups quickly, test integrations across services, and avoid “works on my machine”
                 problems caused by mismatched dependencies or configurations.
-
-                Kubernetes is a container orchestration platform that automates the deployment, scaling, and management
-                of applications composed of many containers. It groups containers into logical units (pods) and provides
-                features like service discovery, load balancing, rolling updates, and resource management—capabilities
-                that are critical in production systems running at scale.
-
-                For local development, Kubernetes is useful because it allows developers to run applications in an
-                environment that closely mirrors production, complete with networking, scaling, and orchestration
-                features. Tools like Minikube, kind, or Docker Desktop make it possible to spin up a lightweight
-                Kubernetes cluster on a developer's computer. This helps developers catch integration or configuration
-                issues early, test distributed systems realistically, and build confidence that code will behave the
-                same way when deployed to production.
-
-                Helm is a package manager for Kubernetes that simplifies the deployment and management of applications
-                inside a cluster. It uses “charts” (preconfigured bundles of Kubernetes manifests) to define, install,
-                and update applications consistently.
-
-                For local development, Helm is useful because it allows developers to spin up complex applications
-                quickly and reproducibly on a local Kubernetes cluster. Instead of writing and managing many YAML files
-                by hand, developers can use Helm charts to deploy services with a single command, customize
-                configurations easily, and keep environments consistent with production. This speeds up experimentation,
-                reduces setup time, and makes managing Kubernetes applications more approachable during development.
             </aside>
         </section>
 
@@ -177,7 +153,9 @@
         <section>
             <h2>Kafka and Schema Registry</h2>
             <ul>
-                <li></li>
+                <li>Confluent images</li>
+                <li>Kafka UI</li>
+                <li>Schema Registry UI</li>
             </ul>
             <aside class="notes">
                 With Docker Compose, you can run a single-node Kafka broker (in KRaft mode) and Confluent Schema
@@ -200,6 +178,29 @@
                 your laptop: services boot in order (depends_on + healthchecks), topics and schemas are created
                 predictably, and your app immediately has reliable messaging with strong contracts—speeding up local
                 integration testing and shortening feedback loops.
+
+                A Kafka UI is important in a local Docker Compose environment because it provides a simple, visual way
+                to inspect and manage Kafka without relying only on CLI tools. With a UI, developers can browse topics,
+                partitions, and consumer groups, check offsets and lag, and even produce or consume test messages
+                directly from the browser. This makes it much easier to debug integration issues, verify that services
+                are publishing/consuming correctly, and explore message payloads during development.
+
+                In an ephemeral local setup, where services are frequently spun up and torn down, a Kafka UI adds
+                visibility and reduces the feedback loop. Instead of digging through logs or running complex commands,
+                developers get quick insights into the state of the messaging system, which speeds up troubleshooting
+                and boosts confidence that the environment mirrors production behavior.
+
+                A Schema Registry UI is important in a local Docker Compose environment because it gives developers an
+                easy way to explore, register, and manage schemas without relying solely on API calls or scripts.
+                Through the UI, you can quickly see which subjects exist, inspect schema versions, check compatibility
+                settings, and validate whether producers and consumers are aligned. This visibility makes it much easier
+                to debug serialization issues, test schema evolution, and ensure contracts between services are being
+                respected.
+
+                In an ephemeral local setup, where schemas may be frequently registered and reset, the UI helps
+                developers verify their initialization scripts worked, confirm compatibility modes, and experiment with
+                new schema versions safely. By reducing the friction of managing schemas, the UI accelerates feedback
+                loops and builds confidence that local development mirrors production practices.
             </aside>
         </section>
 
