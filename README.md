@@ -1,6 +1,22 @@
 # local-dev-environments-presentation
 Presentation on local development environments given by Christopher Bartling on September 24, 2025 for the Developer Deep Dives meetup.
 
+
+## Getting Started
+
+1. Clone the repository
+2. Run `npm install` to install dependencies
+3. Run `npm run dev` to start the development server
+
+## Scripts
+
+The following npm scripts are available:
+
+- `npm run dev` - Start the development server using Vite
+- `npm run build` - Build the presentation for production using Vite
+- `npm run preview` - Preview the production build locally on port 5173
+
+
 ## About Reveal.js
 
 This presentation is built using [Reveal.js](https://revealjs.com/), a modern HTML presentation framework that creates beautiful, interactive slide decks for the web. Reveal.js offers:
@@ -12,11 +28,3 @@ This presentation is built using [Reveal.js](https://revealjs.com/), a modern HT
 - **Speaker notes** - Built-in speaker notes functionality
 - **Export options** - Export to PDF or host online
 - **Plugin ecosystem** - Extensive plugin support for additional features
-
-## Scripts
-
-The following npm scripts are available:
-
-- `npm run dev` - Start the development server using Vite
-- `npm run build` - Build the presentation for production using Vite
-- `npm run preview` - Preview the production build locally on port 5173
