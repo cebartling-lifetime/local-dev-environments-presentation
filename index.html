@@ -42,9 +42,9 @@
             <aside class="notes">
                 Local development environments powered by Docker Compose are valuable because they provide
                 consistency, reproducibility, and isolation across machines and stages of development. By containerizing
-                applications and their dependencies, developers avoid the “works on my machine” problem and can quickly
-                spin up complex, multi-service stacks that closely mirror QA and production. This makes onboarding new
-                developers faster, enables safe experimentation, and reduces the risk of environment-related bugs.
+                applications and their dependencies, developers can quickly spin up complex, multi-service stacks that
+                closely mirror QA and production. This makes onboarding new developers faster, enables safe
+                experimentation, and reduces the risk of environment-related bugs.
 
                 They also help teams maintain parity with production systems, which are often container-orchestrated in
                 Kubernetes or similar platforms. This alignment means issues are caught earlier in development, CI/CD
@@ -59,11 +59,11 @@
                 means issues like misconfigurations, dependency mismatches, or integration bugs are caught early, often
                 within minutes of writing code.
 
-                By reducing reliance on remote environments, these setups also cut down on delays caused by resource
-                contention or slow deployment pipelines. The result is faster iteration, quicker validation of changes,
-                and a smoother path from development to production. In essence, local Docker Compose
-                environments give developers instant, reliable feedback, which drives productivity and improves software
-                quality.
+                By reducing reliance on remote environments during development, these setups also cut down on delays
+                caused by resource contention or slow deployment pipelines. The result is faster iteration, quicker
+                validation of changes, and a smoother path from development to production. In essence, local Docker
+                Compose environments give developers instant, reliable feedback, which drives productivity and improves
+                software quality.
             </aside>
         </section>
 
@@ -77,17 +77,17 @@
                 <li>Experimentation sandbox</li>
             </ul>
             <aside class="notes">
-                A local development environment using Docker Compose is a setup where developers run their
-                application and all its required services (like databases, caches, message brokers, or APIs) inside
-                containers on their own machine. Instead of manually installing and configuring these dependencies,
-                developers define them in configuration files (docker-compose.yml or Kubernetes manifests) and start the
-                entire stack with a single command. This creates a consistent, reproducible environment that mirrors how
-                the application will run in production.
+                A local development environment using Docker Compose is a setup where developers run the required
+                services (like databases, caches, message brokers, or APIs) inside containers on their own machine.
+                Instead of manually installing and configuring these dependencies on the local system,
+                developers define them in a Docker Compose YAML file and start the entire stack with a single command.
+                This creates a consistent, reproducible environment that mirrors how the application will run in
+                production.
 
-                With this approach, developers can work in isolation without interfering with each other, quickly spin
-                up or tear down complete environments, and test changes against realistic infrastructure. Essentially,
-                it provides a production-like sandbox on a laptop, enabling faster debugging, safer experimentation, and
-                smoother collaboration across a team.
+                With this approach, developers can work in isolation without interfering with each other, quickly
+                spinning up or tearing down complete environments, and test changes against realistic infrastructure.
+                Essentially, it provides a production-like sandbox on a local development system, enabling faster
+                debugging, safer experimentation, and smoother collaboration across a team.
 
                 The local development environment is ephemeral, meaning the setup can be created, destroyed, and
                 recreated at will without manual effort or long-term dependencies. This is important because it ensures
@@ -116,8 +116,7 @@
 
                 Docker Compose is especially useful for local development because it provides a consistent, reproducible
                 environment that mirrors production while staying lightweight and easy to manage. Developers can spin up
-                or tear down complex setups quickly, test integrations across services, and avoid “works on my machine”
-                problems caused by mismatched dependencies or configurations.
+                or tear down complex setups quickly.
             </aside>
         </section>
 
@@ -131,20 +130,19 @@
             <aside class="notes">
                 With Docker Compose, you can run databases like MS SQL Server and MongoDB as services alongside your app
                 so everything starts with one command and shares a private network. Each DB gets its own container,
-                persistent volume (so data survives restarts), and environment variables for credentials. Your
-                application service just connects to the DB’s service name (e.g., sqlserver:1433 or
-                mongodb://mongo:27017) instead of localhost, giving you a reproducible, production-like stack on your
-                laptop.
+                persistent volume (so data survives restarts), and environment variables for credentials.
 
-                Initialization and seeding are handled slightly differently per database. For MongoDB, the official
-                image automatically runs any .js or .sh files placed in /docker-entrypoint-initdb.d on the first launch
-                of a fresh data volume. You can use this to create users, databases, and seed collections (including
-                running mongorestore from a dump).
+                Initialization and seeding are handled slightly differently per database.
 
                 For MS SQL Server, the official image doesn’t auto-run scripts by default; common practice is to add a
                 small “init” one-shot container that waits for SQL Server to become healthy and then executes your .sql
-                files via sqlcmd (or bake that logic into a custom entrypoint). In both cases, Compose healthchecks
-                (depends_on: condition: service_healthy) ensure your app starts only after the database is ready, and
+                files via sqlcmd (or bake that logic into a custom entrypoint).
+
+                For MongoDB, the official image automatically runs any .js or .sh files placed in
+                /docker-entrypoint-initdb.d on the first launch of a fresh data volume. You can use this to create
+                users, databases, and seed collections (including running mongorestore from a dump).
+
+                In both cases, Compose healthchecks ensure your app starts only after the database is ready, and
                 volumes keep data persistent while still allowing you to tear everything down and recreate a clean
                 environment when you need to reseed.
             </aside>
@@ -160,8 +158,8 @@
             <aside class="notes">
                 With Docker Compose, you can run a single-node Kafka broker (in KRaft mode) and Confluent Schema
                 Registry as services on the same private network as your app. The Kafka container exposes
-                PLAINTEXT://broker:9092 (or 29092 for host access) and persists data to a volume; Schema Registry points
-                at the Kafka bootstrap servers and stores schemas in Kafka’s internal _schemas topic. Your application
+                standard ports and persists data to a volume; Schema Registry points at the Kafka bootstrap servers and
+                stores schemas in Kafka’s internal _schemas topic. Your application
                 then connects using the broker’s address and the Schema Registry URL (e.g.,
                 SCHEMA_REGISTRY_URL=http://schema-registry:8081) so producers/consumers can serialize/deserialize events
                 with Avro/JSON Schema/Protobuf.
@@ -169,38 +167,31 @@
                 Topic initialization is typically handled by a small, one-shot “init” service that waits for Kafka’s
                 healthcheck and then runs kafka-topics.sh to create topics with desired partitions/replication and
                 configs, or uses kcat/Confluent CLI. This keeps local setups reproducible—docker compose up yields the
-                same topics every time. Schema registration can be automated similarly with a a small, one-shot “init”
-                service to register Avro schemas. Many teams also enable client auto-registration during development,
-                but pre-registering via an init container makes local CI-like runs deterministic and lets you catch
-                incompatible changes early.
+                same topics every time.
+
+                Schema registration can be automated similarly with a a small, one-shot “init”
+                service to register Avro schemas. Pre-registering via an init container makes local CI-like runs
+                deterministic and lets you catch incompatible changes early.
 
                 In short, Compose turns Kafka + Schema Registry into a turnkey, production-like messaging stack on
                 your laptop: services boot in order (depends_on + healthchecks), topics and schemas are created
                 predictably, and your app immediately has reliable messaging with strong contracts—speeding up local
                 integration testing and shortening feedback loops.
 
-                A Kafka UI is important in a local Docker Compose environment because it provides a simple, visual way
-                to inspect and manage Kafka without relying only on CLI tools. With a UI, developers can browse topics,
+                The Kafka UI service is important in a local dev environment because it provides a simple, visual way
+                to inspect and manage Kafka without relying only on CLI tools. With Kafka UI, developers can browse
+                topics,
                 partitions, and consumer groups, check offsets and lag, and even produce or consume test messages
                 directly from the browser. This makes it much easier to debug integration issues, verify that services
                 are publishing/consuming correctly, and explore message payloads during development.
 
-                In an ephemeral local setup, where services are frequently spun up and torn down, a Kafka UI adds
-                visibility and reduces the feedback loop. Instead of digging through logs or running complex commands,
-                developers get quick insights into the state of the messaging system, which speeds up troubleshooting
-                and boosts confidence that the environment mirrors production behavior.
-
-                A Schema Registry UI is important in a local Docker Compose environment because it gives developers an
+                The Schema Registry UI service is important in a local Docker Compose environment because it gives
+                developers an
                 easy way to explore, register, and manage schemas without relying solely on API calls or scripts.
                 Through the UI, you can quickly see which subjects exist, inspect schema versions, check compatibility
                 settings, and validate whether producers and consumers are aligned. This visibility makes it much easier
                 to debug serialization issues, test schema evolution, and ensure contracts between services are being
                 respected.
-
-                In an ephemeral local setup, where schemas may be frequently registered and reset, the UI helps
-                developers verify their initialization scripts worked, confirm compatibility modes, and experiment with
-                new schema versions safely. By reducing the friction of managing schemas, the UI accelerates feedback
-                loops and builds confidence that local development mirrors production practices.
             </aside>
         </section>
 
@@ -210,7 +201,7 @@
                 <li></li>
             </ul>
             <aside class="notes">
-                With Docker Compose, you can run WireMock as a containerized service on the same private network as your
+                WireMock can be run as a containerized service on the same network as your
                 app to provide fast, isolated API mocks. Your app calls http://wiremock:8080 (or whatever service
                 name/port you set), and WireMock serves predefined stubs so you can develop and test without reaching
                 real third-party APIs. You typically mount two volumes: mappings/ for stub definitions and __files/ for
@@ -220,12 +211,15 @@
                 Initialization of API URIs (i.e., seeding WireMock with routes) can be done in two ways. The simplest is
                 file-based seeding: place JSON/YAML stub files in mappings/ that declare the request matchers and
                 responses (status, headers, body or bodyFileName). On first start, WireMock automatically loads these so
-                endpoints like /oauth/token, /orders/*, or /health are ready immediately. Alternatively, you can use an
-                init container that waits for WireMock’s health and then calls the Admin API (e.g., POST
-                /__admin/mappings) to register stubs dynamically, set global settings (delays/faults), or import
-                recordings. This approach is great when you need environment-specific values, templating, or to toggle
-                behaviors (proxying, latency injection) per run. Together, Compose and WireMock give you a
-                production-like, controllable API surface for local and CI use—no external dependencies required.
+                endpoints like /oauth/token, /orders/*, or /health are ready immediately.
+
+                Alternatively, you can use an init container that waits for WireMock’s health and then calls the Admin
+                API (e.g., POST /__admin/mappings) to register stubs dynamically, set global settings (delays/faults),
+                or import recordings. This approach is great when you need environment-specific values, templating, or
+                to toggle behaviors (proxying, latency injection) per run.
+
+                Together, Docker Compose and WireMock give you a
+                production-like, controllable API surface for local development use—no external API dependencies required.
             </aside>
         </section>
 
